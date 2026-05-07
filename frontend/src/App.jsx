@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import Home from './pages/Home';
 
@@ -24,6 +24,7 @@ const theme = createTheme({
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: { fontWeight: 900 },
     h2: { fontWeight: 800 },
+    h3: { fontWeight: 900 },
     h5: { fontWeight: 700 },
   },
   shape: {
@@ -51,10 +52,23 @@ const theme = createTheme({
 });
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (pet) => {
+    setCart((prev) => {
+      if (prev.some((item) => item.id === pet.id)) return prev;
+      return [...prev, pet];
+    });
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Home />
+      <Home cart={cart} addToCart={addToCart} clearCart={clearCart} />
     </ThemeProvider>
   );
 }

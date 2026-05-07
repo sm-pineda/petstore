@@ -6,7 +6,7 @@ import PetGrid from '../components/PetGrid';
 import Filter from '../components/Filter';
 import Navbar from '../components/Navbar';
 
-const Home = () => {
+const Home = ({ cart, addToCart, clearCart }) => {
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
   const [category, setCategory] = useState('');
@@ -51,7 +51,7 @@ const Home = () => {
 
   return (
     <Box className="min-h-screen bg-[#FEFCE8]">
-      <Navbar />
+      <Navbar cart={cart} clearCart={clearCart} />
       <Filter selectedCategory={category} onCategoryChange={setCategory} />
       
       <Container maxWidth="xl" className="max-w-7xl pt-12 pb-32 px-6">
@@ -105,7 +105,7 @@ const Home = () => {
             <CircularProgress size={50} thickness={5} className="text-amber-500" />
           </Box>
         ) : (
-          <PetGrid pets={filteredPets} />
+          <PetGrid pets={filteredPets} addToCart={addToCart} cart={cart} />
         )}
       </Container>
     </Box>

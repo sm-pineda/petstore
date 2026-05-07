@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Card, CardMedia, CardContent, Typography, CardActions, IconButton, Chip, Snackbar, Alert, Skeleton, Box, Button } from '@mui/material';
-import { AddShoppingCart as CartIcon, InfoOutlined as InfoIcon } from '@mui/icons-material';
+import { Card, CardMedia, CardContent, Typography, IconButton, Chip, Snackbar, Alert, Skeleton, Box, Button } from '@mui/material';
+import { AddShoppingCart as CartIcon, InfoOutlined as InfoIcon, Check as CheckIcon } from '@mui/icons-material';
 
-const PetCard = ({ pet }) => {
+const PetCard = ({ pet, addToCart, cart }) => {
   const [open, setOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  const isInCart = cart?.some(item => item.id === pet.id);
+
   const handleAddToCart = () => {
+    if (isInCart) return;
+    addToCart(pet);
     setOpen(true);
   };
 
@@ -16,7 +20,7 @@ const PetCard = ({ pet }) => {
   };
 
   return (
-    <Card elevation={1} className="max-w-sm rounded-3xl overflow-hidden border border-amber-50 bg-white transition-all duration-500 hover:shadow-2xl hover:shadow-amber-100 hover:-translate-y-2">
+    <Card elevation={1} className="flex flex-col h-full rounded-3xl overflow-hidden border border-amber-50 bg-white transition-all duration-500 hover:shadow-2xl hover:shadow-amber-100 hover:-translate-y-2">
       <Box className="relative h-64 overflow-hidden">
         {!imageLoaded && (
           <Skeleton variant="rectangular" width="100%" height="100%" animation="wave" className="bg-amber-50" />
@@ -34,7 +38,7 @@ const PetCard = ({ pet }) => {
             size="small" 
             sx={{ 
               backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-              color: '#374151', // Dark grey almost black
+              color: '#374151', 
               fontWeight: 900, 
               fontSize: '10px',
               textTransform: 'uppercase',
@@ -46,7 +50,7 @@ const PetCard = ({ pet }) => {
         </Box>
       </Box>
 
-      <CardContent className="p-6">
+      <CardContent className="p-6 flex-grow">
         <div className="flex justify-between items-center mb-2">
           <Typography variant="h5" className="font-black text-gray-800 tracking-tight">
             {pet.name}
@@ -59,16 +63,21 @@ const PetCard = ({ pet }) => {
           {pet.description || 'No description available for this lovely pet.'}
         </Typography>
         
-        <Box className="flex gap-2">
+        <Box className="flex gap-2 mt-auto">
           <Button 
             fullWidth 
             variant="contained" 
             disableElevation
             onClick={handleAddToCart}
-            startIcon={<CartIcon />}
-            className="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-2xl shadow-lg shadow-amber-100"
+            disabled={isInCart}
+            startIcon={isInCart ? <CheckIcon /> : <CartIcon />}
+            className={`${
+              isInCart 
+                ? 'bg-gray-100 text-gray-400' 
+                : 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-100 active:scale-95'
+            } font-bold py-3 rounded-2xl transition-all duration-300`}
           >
-            Adopt Me
+            {isInCart ? 'In Cart' : 'Adopt Me'}
           </Button>
           <IconButton className="bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-2xl p-3">
             <InfoIcon />
@@ -82,7 +91,7 @@ const PetCard = ({ pet }) => {
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity="success" variant="filled" className="rounded-2xl shadow-xl bg-amber-500">
+        <Alert onClose={handleClose} severity="success" variant="filled" className="rounded-2xl shadow-xl bg-amber-500 font-bold">
           Yay! {pet.name} is in your cart!
         </Alert>
       </Snackbar>

@@ -1,24 +1,16 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import PetCard from './PetCard';
 
-const PetGrid = ({ pets }) => {
-  if (!pets || pets.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <Typography variant="h5" className="text-gray-500 italic">
-          No pets found in this category.
-        </Typography>
-      </div>
-    );
-  }
-
+const PetGrid = ({ pets, addToCart, cart }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <Grid container spacing={4} className="items-stretch justify-center">
       {pets.map((pet) => (
-        <PetCard key={pet.id} pet={pet} />
+        <Grid item key={pet.id} xs={12} sm={6} md={4} lg={3} className="flex justify-center">
+          <PetCard pet={pet} addToCart={addToCart} cart={cart} />
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 
