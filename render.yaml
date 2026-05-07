@@ -1,0 +1,37 @@
+services:
+  # Backend
+  - type: web
+    name: petstore-backend
+    env: java
+    rootDir: backend
+    buildCommand: ./gradlew build -x test
+    startCommand: java -jar build/libs/*.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: petstore-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: petstore-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: petstore-db
+          property: password
+
+  # Frontend
+  - type: web
+    name: petstore-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://petstore-backend.onrender.com/api
+
+databases:
+  - name: petstore-db
+    databaseName: petstore
+    user: petstore_user

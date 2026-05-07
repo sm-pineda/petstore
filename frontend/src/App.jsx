@@ -1,0 +1,62 @@
+import React from 'react';
+import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import Home from './pages/Home';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#F59E0B', // Amber
+      contrastText: '#FFFFFF',
+    },
+    secondary: {
+      main: '#FBBF24', // Muted Yellow
+    },
+    background: {
+      default: '#FEFCE8', // Pale Cream
+      paper: '#FFFFFF',
+    },
+    text: {
+      primary: '#374151', // Dark Grey
+      secondary: '#6B7280',
+    },
+  },
+  typography: {
+    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+    h1: { fontWeight: 900 },
+    h2: { fontWeight: 800 },
+    h5: { fontWeight: 700 },
+  },
+  shape: {
+    borderRadius: 16,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 700,
+          borderRadius: 12,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 20,
+          border: '1px solid #FBBF2420',
+        },
+      },
+    },
+  },
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Home />
+    </ThemeProvider>
+  );
+}
+
+export default App;
