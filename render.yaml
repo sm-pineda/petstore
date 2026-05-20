@@ -2,10 +2,8 @@ services:
   # Backend
   - type: web
     name: petstore-backend
-    runtime: java
+    runtime: docker
     rootDir: backend
-    buildCommand: ./gradlew build -x test
-    startCommand: java -jar build/libs/*.jar
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
