@@ -1,5 +1,16 @@
 services:
-  # Backend
+  # Frontend - Free tier web service
+  - type: web
+    name: petstore-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm install -g serve && serve -s dist -l 3000
+    envVars:
+      - key: VITE_API_URL
+        value: https://petstore-backend.onrender.com/api
+
+  # Backend - Free tier web service (will spin down after 15 min inactivity)
   - type: web
     name: petstore-backend
     runtime: docker
@@ -17,17 +28,8 @@ services:
         fromDatabase:
           name: petstore-db
           property: password
-
-  # Frontend
-  - type: web
-    name: petstore-frontend
-    runtime: node
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    startCommand: npm install -g serve && serve -s dist -l 3000
-    envVars:
-      - key: VITE_API_URL
-        value: https://petstore-backend.onrender.com/api
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
 
 databases:
   - name: petstore-db
