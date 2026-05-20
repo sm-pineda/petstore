@@ -30,6 +30,10 @@ services:
         fromDatabase:
           name: petstore-db
           property: password
+      - key: SPRING_DATASOURCE_DRIVER
+        value: org.postgresql.Driver
+      - key: SPRING_JPA_PLATFORM
+        value: org.hibernate.dialect.PostgreSQLDialect
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
         value: update
 
