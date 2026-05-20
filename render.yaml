@@ -9,7 +9,7 @@ services:
     startCommand: npx serve -s dist -l 3000
     envVars:
       - key: VITE_API_URL
-        value: https://petstore-backend.onrender.com/api
+        value: https://petstore-backend-bdpr.onrender.com/api
 
   # Backend - Free tier web service (will spin down after 15 min inactivity)
   - type: web
