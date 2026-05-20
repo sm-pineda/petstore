@@ -19,9 +19,19 @@ services:
     rootDir: backend
     envVars:
       - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - key: DB_HOST
         fromDatabase:
           name: petstore-db
-          property: connectionString
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: petstore-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: petstore-db
+          property: database
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: petstore-db
@@ -32,8 +42,6 @@ services:
           property: password
       - key: SPRING_DATASOURCE_DRIVER
         value: org.postgresql.Driver
-      - key: SPRING_JPA_PLATFORM
-        value: org.hibernate.dialect.PostgreSQLDialect
       - key: SPRING_JPA_HIBERNATE_DDL_AUTO
         value: update
 
