@@ -3,6 +3,7 @@ services:
   - type: web
     name: petstore-frontend
     runtime: node
+    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     startCommand: npm install -g serve && serve -s dist -l 3000
@@ -14,6 +15,7 @@ services:
   - type: web
     name: petstore-backend
     runtime: docker
+    plan: free
     rootDir: backend
     envVars:
       - key: SPRING_DATASOURCE_URL
@@ -35,3 +37,4 @@ databases:
   - name: petstore-db
     databaseName: petstore
     user: petstore_user
+    plan: free
